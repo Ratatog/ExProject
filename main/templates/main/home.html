@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <span>{{ user.username }}</span> | 
+    <a href="{% url "users:logout" %}">Logout</a>
+</div>
+<div>
+    <div>
+        <a href="{% url "create_project" %}">Create project</a>
+    </div>
+    <div>
+        <form id='search_project'>
+            <span>Find Project</span>
+            <input id='search_project_input' type="text" placeholder='Enter project id' required>
+            <button>Enter</button>
+        </form>
+    </div>
+    <div>
+        <span>My Projects:</span>
+        <div>
+            {% for project in projects.all %}
+            {% if project.creator == user %}
+            {% include "main/includes/project.html" %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <span>Current Projects: </span>
+        <div>
+            {% for project in projects.all %}
+            {% if user in project.members.all or project.moders.all %}
+                {% if project.creator != user %}
+                {% include "main/includes/project.html" %}
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.getElementById('search_project').addEventListener('submit', function(event) {
+        event.preventDefault()
+        const searchValue = document.getElementById('search_project_input').value
+        const url = "{% url "project" '0' %}".replace('0', searchValue)
+        window.location.href = url
+    });
+</script>
+{% endblock scripts %}

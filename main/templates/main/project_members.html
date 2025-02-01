@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for req in reqs %}
+    {% include "main/includes/member.html" %}
+{% endfor %}
+
+{% endblock content %}

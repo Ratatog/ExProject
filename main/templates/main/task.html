@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>{{ task.description }}</h3>
+
+{% if user not in task.project.members.all %}
+<div><a href="{% url "delete_task" task.pk %}">Удалить</a></div>
+<div><a href="{% url "change_task" task.pk %}">Изменить</a></div>
+{% endif %}
+
+{{task.status}}: 
+
+{% if task.status == 'completed' %}
+    Done | {{task.end_date}}
+{% elif not task.taked %}
+    <a href="{% url "take_task" task.pk %}">Take Task</a>
+{% elif task.taked and task.taked == user %}
+    <a href="{% url "take_task" task.pk %}">Cancel Task</a>
+    <div>
+        <span>Comleted? &gt; </span>
+        <a href="{% url "complete_task" task.pk %}">Finish Task</a>
+    </div>
+{% else %}
+    {{task.taked}}
+{% endif %}
+
+<div>
+    <div>
+        <form method='POST'>
+            {% csrf_token %}
+            <span>Comments:</span>
+            {{form.as_p}}
+            <button type='submit'>Send</button>
+        </form>
+    </div>
+    <div>
+        {% for comm in comms %}
+        <div>{{comm.user}}: {{comm.text}}</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,9 @@
+<div>
+    {{req.username}} || 
+    <a href="{% url "accept_project" pid req.pk %}">
+        accept
+    </a> | 
+    <a href="{% url "decline_project" pid req.pk %}">
+        decline
+    </a>
+</div>

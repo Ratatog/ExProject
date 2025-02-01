@@ -1,0 +1,5 @@
+<div>
+    <a href="{% url "task" task.pk %}">
+        {{ task.title }}: {{task.description}} - Priority: {{task.priority}} - Status: {{task.status}}
+    </a>
+</div>

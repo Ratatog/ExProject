@@ -1,0 +1,12 @@
+<div>
+    {{req.username}} || 
+
+    {% if user in user == project.creator or user.is_superuser %}
+        {% if req in proj.moders.all %}
+        Moderator || <a href="{% url "mod_project" pid req.pk %}">To_Member</a> | 
+        {% else %}
+        Member || <a href="{% url "mod_project" pid req.pk %}">To_Moderator</a>
+        {% endif %} ||
+        <a href="{% url "quit_project" pid req.pk %}">Remove</a>
+    {% endif %}
+</div>
